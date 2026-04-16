@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HBD</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Nobile:400italic,700italic');
+
+    :root {
+      --border-color: #f9f9f9;
+      --vanilla: #FF69B4;
+      --chocolate: #9B59B6;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: lightskyblue;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Nobile', sans-serif;
+    }
+
+    .card {
+      position: relative;
+      width: 390px;
+      height: 550px;
+      border: 10px solid var(--border-color);
+      box-shadow: inset 10px 0px 15px 0px rgba(0,0,0,0.1);
+      background-color: revert;
+      perspective: 1200px;
+    }
+
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 10px solid var(--border-color);
+      margin: -10px 0 0 -10px;
+      backface-visibility: hidden;
+      transition: all 0.8s ease-in-out;
+      transform-style: preserve-3d;
+      transform-origin: 0% 50%;
+    }
+
+    .front {
+      background-color: rgb(207, 45, 240);
+      transform: perspective(800px) rotateY(0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .back {
+      background-color: rgb(230, 190, 250);
+      transform: perspective(800px) rotateY(180deg);
+      box-shadow: 7px 0px 5px 0px rgba(0,0,0,0.3), inset 2px 0px 15px 0px rgba(0,0,0,0.1);
+    }
+
+    .card:hover .front {
+      transform: perspective(800px) rotateY(-170deg);
+      background-color: rgb(255, 130, 130);
+    }
+
+    .card:hover .back {
+      transform: perspective(800px) rotateY(10deg);
+    }
+
+    .hover-text {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Nobile', sans-serif;
+      font-size: 24px;
+      color: white;
+      text-shadow: 2px 2px 3px rgba(194, 231, 29, 0.5);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .text-container {
+      width: 80%;
+      height: 80%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    #head {
+      font-family: 'Nobile', sans-serif;
+      font-size: 2.5em;
+      margin: 20px auto 30px auto;
+      background: linear-gradient(135deg, #ed0d7d, #E74C3C, #210404, #d14119, #e33606);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card p, .card .text-container > div {
+      font-family: 'Nobile';
+      color: #580083;
+      font-style: italic;
+      font-size: 1.4em;
+      line-height: 1.6;
+      margin: 20px auto;
+    }
+
+    /* Cake */
+    .cake {
+      position: absolute;
+      width: 100px;
+      height: 80px;
+      top: 50%;
+      left: 50%;
+      margin-top: -28px;
+      margin-left: -50px;
+    }
+
+    .layer {
+      position: absolute;
+      width: 100px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--chocolate);
+      box-shadow: 0 2px 0 #5a4520, 0 4px 0 #4e3c1c, 0 6px 0 #423318,
+                  0 8px 0 #362a14, 0 10px 0 #2a2110, 0 12px 0 #1e180c,
+                  0 14px 0 #120f08, 0 16px 0 #060604;
+    }
+
+    .layer-top    { top: 0px; }
+    .layer-middle { top: 13.2px; }
+    .layer-bottom { top: 26.4px; }
+
+    .icing {
+      top: 0.8px;
+      left: 2px;
+      background-color: var(--vanilla);
+      width: 96px;
+      height: 36px;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .icing::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      right: 5px;
+      bottom: 6px;
+      left: 5px;
+      background-color: #f5e8d6;
+      box-shadow: 0 0 4px #f7ebde, 0 0 4px #f7ebde, 0 0 4px #f7ebde;
+      border-radius: 50%;
+    }
+
+    .drip {
+      display: block;
+      width: 20px;
+      height: 24px;
+      border-bottom-left-radius: 25px;
+      border-bottom-right-radius: 25px;
+      background-color: var(--vanilla);
+      position: absolute;
+    }
+
+    .drip1 { top: 22px; left: 2px; transform: skewY(15deg); height: 19.2px; width: 16px; }
+    .drip2 { top: 30px; left: 72.4px; transform: skewY(-15deg); }
+    .drip3 { top: 33.6px; left: 36px; width: 32px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
+
+    .candle {
+      background-color: #9B59B6;
+      width: 6.4px;
+      height: 20px;
+      border-radius: 8px / 4px;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+    }
+
+    .candle::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: #FFEB3B;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #FFEB3B, 0 0 12px #FFEB3B;
+    }
+
+    /* Cover shapes (optional decoration) */
+    .cover-shape-large, .cover-shape-small {
+      position: absolute;
+      background: transparent;
+    }
+
+    .cover-shape-large {
+      width: 55%;
+      height: 40%;
+      top: 28%;
+      left: 23%;
+    }
+
+    .cover-shape-small {
+      width: 40%;
+      height: 28%;
+      top: 35%;
+      left: 30%;
+    }
+
+    .shape-block, .shape-diamond {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #FF69B4;
+      border-radius: 50px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .shape-diamond {
+      transform: rotateZ(45deg);
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- Front of the card -->
+    <div class="front">
+      <div class="hover-text">DEAR SHODI..</div>
+      
+      <!-- Cake on the front -->
+      <div class="cake">
+        <div class="layer layer-bottom"></div>
+        <div class="layer layer-middle"></div>
+        <div class="layer layer-top"></div>
+        
+        <div class="icing"></div>
+        
+        <div class="drip drip1"></div>
+        <div class="drip drip2"></div>
+        <div class="drip drip3"></div>
+        
+        <div class="candle"></div>
+      </div>
+    </div>
+
+    <!-- Back of the card -->
+    <div class="back">
+      <div class="text-container">
+        <h1 id="head">Happy Birthday!</h1>
+        <div>May your day be filled with love, laughter, and lots of cake!</div>
+        <p>Wishing you a year full of beautiful moments and sweet memories.</p>
+        <p>Enjoy your special day! 🎉</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
